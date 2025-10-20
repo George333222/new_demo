@@ -41,6 +41,4 @@ def test_delete_user(api_client):
     print(" User deleted successfully!")
 
 
-print("hello")
-print("hello world")
-print("hello student")
+print("Tests for creating, updating, and deleting a user have been defined.")
