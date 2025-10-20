@@ -42,3 +42,5 @@ def test_delete_user(api_client):
 
 
 print("hello")
+print("hello world")
+print("hello student")
