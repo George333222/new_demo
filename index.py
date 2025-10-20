@@ -39,3 +39,6 @@ def test_delete_user(api_client):
     response = api_client.delete(endpoint)
     assert response.status_code == 204
     print(" User deleted successfully!")
+
+
+print("hello")
