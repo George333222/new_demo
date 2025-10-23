@@ -42,4 +42,3 @@ def test_delete_user(api_client):
 
 
 print("Tests for creating, updating, and deleting a user have been defined.")
-print ("feat-b")
