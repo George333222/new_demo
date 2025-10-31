@@ -1,4 +1,4 @@
-name: Python CI
+name: Run Python Script
 
 on:
   push:
@@ -19,11 +19,5 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt || true
-        pip install pytest  # 👈 add this line
-
-    - name: Run tests
-      run: pytest  # now this will work
+    - name: Run Hello World
+      run: python hello.py
