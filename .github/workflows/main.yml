@@ -19,5 +19,5 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Run Hello World
-      run: python hello.py
+    - name: Run index.py
+      run: python index.py
