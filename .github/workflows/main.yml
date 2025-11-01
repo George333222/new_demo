@@ -1,4 +1,4 @@
-name: Run Python Script and Save Output
+name: Python CI
 
 on:
   push:
@@ -19,13 +19,11 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Run index.py and save output
+    - name: Install dependencies
       run: |
-        python index.py > output.txt
-        echo "Output saved to output.txt"
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || true
+        pip install pytest  # 👈 add this line
 
-    - name: Upload output as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-output
-        path: output.txt
+    - name: Run tests
+      run: pytest  
