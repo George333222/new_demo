@@ -1,15 +1,15 @@
-name: Run Python Script with OpenAI API
+name: Test OpenAI API Key
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
+  test-api:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -18,9 +18,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install openai
+        run: pip install requests
 
-      - name: Run index.py
+      - name: Run API key test
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
         run: python index.py
