@@ -1,9 +1,7 @@
-name: Run Python Script and Save Output
+name: Run Python Script and Use Secret
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -11,21 +9,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Run index.py and save output
-      run: |
-        python index.py > output.txt
-        echo "Output saved to output.txt"
+      - name: Install dependencies
+        run: pip install openai
 
-    - name: Upload output as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-output
-        path: output.txt
+      - name: Run Python script
+        env:
+          API_KEY_1: ${{ secrets.API_KEY_1 }}
+        run: |
+          python - <<EOF
+          import os
+          import openai
+
+          openai.api_key = os.getenv("API_KEY_1")
+          response = openai.chat.completions.create(
+              model="gpt-3.5-turbo",
+              messages=[{"role": "user", "content": "Hello from GitHub Actions!"}]
+          )
+          print(response.choices[0].message.content)
+          EOF
