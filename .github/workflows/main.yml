@@ -1,4 +1,4 @@
-name: Run Python Script and Use Secret
+name: Run Python Script with OpenAI API
 
 on:
   push:
@@ -20,18 +20,7 @@ jobs:
       - name: Install dependencies
         run: pip install openai
 
-      - name: Run Python script
+      - name: Run index.py
         env:
           API_KEY_1: ${{ secrets.API_KEY_1 }}
-        run: |
-          python - <<EOF
-          import os
-          import openai
-
-          openai.api_key = os.getenv("API_KEY_1")
-          response = openai.chat.completions.create(
-              model="gpt-3.5-turbo",
-              messages=[{"role": "user", "content": "Hello from GitHub Actions!"}]
-          )
-          print(response.choices[0].message.content)
-          EOF
+        run: python index.py
