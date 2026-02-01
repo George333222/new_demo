@@ -1,0 +1,28 @@
+python -m pytest test_sample.py -v [for run pytest file]
+
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install())) [saf way for open browser]
+
+python -m pytest (file name)  [Show how many test pass/fail no details in this specific file]
+python -m pytest (file name) -v -s -rA  [with details in this specific file]
+
+
+python -m pytest -rA [for run all pytest cases with details (with output) allso show falied test]
+
+python -m pytest -k addition [for run specific test case]
+
+
+python -m pytest -m sanity -v [for run specific test case with tag    (sanity)  ]
+
+
+python -m pytest --html=reports/latest_report.html --self-contained-html[to get reports]
+
+python -m pytest -q
+
+python -m pytest -m (marker type) -v [for test marker type like sanity,smoke etc]
+
+python -m pytest -m smoke --html=report.html --self-contained-html [to generate html report with file]
+
+python -m pytest --junitxml=results.xml [to generate xml results with file]
+
+python -m pytest --junitxml=results.xml --html=report.html --self-contained-html -v [to generate both xml and html report with details]
