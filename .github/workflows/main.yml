@@ -1,30 +1,24 @@
-name: Pytest + Xray
+name: Run Smoke Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  tests:
+  smoke-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
-
+          python-version: 3.11
       - name: Install dependencies
-        run: pip install pytest
-
-
+        run: pip install -r requirements.txt
       - name: Run smoke tests
-        run: pytest -m smoke --junitxml=smoke.xml
-
-      - name: Upload smoke results to Xray
-        run: python run_and_upload.py smoke.xml
-        env:
-          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
-          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+        run: python -m pytest tests/ -m smoke --junitxml=smoke.xml --tb=short -q --disable-warnings
+      - name: Upload smoke.xml
+        uses: actions/upload-artifact@v3
+        with:
+          name: smoke-report
+          path: smoke.xml
