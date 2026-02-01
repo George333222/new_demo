@@ -1,49 +1,43 @@
-name: Run Smoke Tests
+name: Python Pytest CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  smoke-tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code (don't attempt submodules)
-      - name: Checkout repository
+      # 1️⃣ Checkout your repository
+      - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          submodules: false
 
-      # Step 2: Set up Python
-      - name: Set up Python 3.11
+      # 2️⃣ Setup Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: 3.11
 
-      # Step 3: Install dependencies (ensure pytest is present)
+      # 3️⃣ Upgrade pip
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      # 4️⃣ Install dependencies from requirements.txt
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest
-          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+          python -m pip install -r requirements.txt
 
-      # Step 4: Run smoke tests
+      # 5️⃣ Run pytest for smoke tests only
       - name: Run smoke tests
         run: |
-          python -m pytest tests/ -m smoke \
-            --junitxml=smoke.xml \
-            --tb=short \
-            -q \
-            --disable-warnings
+          python -m pytest tests/ -m smoke --html=report.html --self-contained-html
 
-      # Step 5: Upload smoke.xml as artifact
-      - name: Upload smoke.xml
-        uses: actions/upload-artifact@v4
+      # 6️⃣ Upload HTML report as artifact
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
         with:
-          name: smoke-report
-          path: smoke.xml
+          name: pytest-report
+          path: report.html
