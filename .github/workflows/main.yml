@@ -9,25 +9,7 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run smoke testsjobs:
-  smoke-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-      - name: Install dependencies
-        run: pip install -r requirements.txt
       - name: Run smoke tests
-        run: python -m pytest tests/ -m smoke --junitxml=smoke.xml --tb=short -q --disable-warnings
-      - name: Upload smoke.xml
-        uses: actions/upload-artifact@v4
-        with:
-          name: smoke-report
-          path: smoke.xml
-
         run: python -m pytest tests/ -m smoke --junitxml=smoke.xml --tb=short -q --disable-warnings
       - name: Upload smoke.xml
         uses: actions/upload-artifact@v4
