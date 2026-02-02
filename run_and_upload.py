@@ -19,14 +19,14 @@ def upload_to_xray():
         "client_secret": XRAY_CLIENT_SECRET
     })
 
-    token = r.json()
+    token = r.text
 
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/xml"
     }
 
-    with open("results.xml", "rb") as f:
+    with open("smoke.xml", "rb") as f:
         requests.post(
             "https://xray.cloud.getxray.app/api/v2/import/execution/junit",
             headers=headers,
