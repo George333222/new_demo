@@ -1,43 +1,31 @@
-name: Python Pytest CI
+name: Pytest Xray Automation
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
-  test:
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2️⃣ Setup Python 3.11
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
-      # 3️⃣ Upgrade pip
-      - name: Upgrade pip
-        run: python -m pip install --upgrade pip
-
-      # 4️⃣ Install dependencies from requirements.txt
       - name: Install dependencies
+        working-directory: test_automation
         run: |
-          python -m pip install -r requirements.txt
+          pip install -r requirements.txt
 
-      # 5️⃣ Run pytest for smoke tests only
-      - name: Run smoke tests
+      - name: Run tests and upload to Xray
+        working-directory: test_automation
+        env:
+          XRAY_CLIENT_ID: ${{ secrets. A3D52A6110084E1DAE2E8333F1A30A22 }}
+          XRAY_CLIENT_SECRET: ${{ secrets.c63f8d508a2921c86822deb9d822347c91e785bcbd9cb2fa341a86a6fa165b04 }}
         run: |
-          python -m pytest tests/ -m smoke --html=report.html --self-contained-html
-
-      # 6️⃣ Upload HTML report as artifact
-      - name: Upload test report
-        uses: actions/upload-artifact@v3
-        with:
-          name: pytest-report
-          path: report.html
+          python run_and_upload.py
