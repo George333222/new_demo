@@ -1,8 +1,8 @@
-import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+# import pytest
+# from selenium import webdriver
+# from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.options import Options
+# from webdriver_manager.chrome import ChromeDriverManager
 
 
 # @pytest.fixture
@@ -19,16 +19,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 #     driver.quit()
 
     
-import pytest
+# import pytest
 
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    report = outcome.get_result()
+# @pytest.hookimpl(hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     report = outcome.get_result()
 
-    xray_marker = item.get_closest_marker("xray")
-    if xray_marker:
-        report.user_properties.append(
-            ("test_key", xray_marker.args[0])
-        )
+#     xray_marker = item.get_closest_marker("xray")
+#     if xray_marker:
+#         report.user_properties.append(
+#             ("test_key", xray_marker.args[0])
+#         )
 
