@@ -1,0 +1,31 @@
+name: Pytest Xray Automation
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        working-directory: test_automation
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests and upload to Xray
+        working-directory: test_automation
+        env:
+          XRAY_CLIENT_ID: ${{ secrets. A3D52A6110084E1DAE2E8333F1A30A22 }}
+          XRAY_CLIENT_SECRET: ${{ secrets.c63f8d508a2921c86822deb9d822347c91e785bcbd9cb2fa341a86a6fa165b04 }}
+        run: |
+          python run_and_upload.py
