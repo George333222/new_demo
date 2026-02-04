@@ -2,8 +2,8 @@ import subprocess
 import requests
 import os
 
-XRAY_CLIENT_ID = os.getenv("A3D52A6110084E1DAE2E8333F1A30A22")
-XRAY_CLIENT_SECRET = os.getenv("c63f8d508a2921c86822deb9d822347c91e785bcbd9cb2fa341a86a6fa165b04")
+XRAY_CLIENT_ID = os.getenv("B3BBCBCC5CAB404994ED64D5A40B6A5C")
+XRAY_CLIENT_SECRET = os.getenv("5007d06bbde25745f9a32513528e27b7ec689019722e678cd0588be2e318006d")
 
 def run_tests():
     subprocess.run(
