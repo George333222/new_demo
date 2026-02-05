@@ -24,7 +24,7 @@ jobs:
 
       - name: Run tests and upload to Xray
         env:
-          XRAY_CLIENT_ID: ${{ secrets. B3BBCBCC5CAB404994ED64D5A40B6A5C }}
-          XRAY_CLIENT_SECRET: ${{ secrets. 5007d06bbde25745f9a32513528e27b7ec689019722e678cd0588be2e318006d }}
+          XRAY_CLIENT_ID: ${{ secrets. AE2E52458F244BF1BD861F4A75AF3FEB }}
+          XRAY_CLIENT_SECRET: ${{ secrets. ba37b9b6e5eed4b4ae00e4eda93b9d1da2cf5fe902039c9b8e40d5d782cd6dbf }}
         run: |
           python run_and_upload.py
