@@ -1,0 +1,70 @@
+# File: .github/workflows/ci.yml
+on:
+  push:
+    branches:
+      - main
+      - 'release/*'
+  schedule:
+    - cron: '0 0 * * *'   # Nightly at midnight UTC
+jobs:
+  smoke-tests:
+    # Only run on pushes to main branch
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install selenium pytest
+
+      - name: Run smoke tests
+        run: |
+          pytest -m smoke --junitxml=test-results/results.xml
+
+      - name: Import results to Xray
+        uses: mikepenz/xray-action@v3
+        with:
+          username: ${{ secrets.XRAY_CLIENT_ID }}
+          password: ${{ secrets.XRAY_CLIENT_SECRET }}
+          testFormat: "junit"
+          testPaths: "test-results/results.xml"
+          testExecKey: "XRAY-TESTEXEC-KEY"  # replace with your Test Execution key
+          projectKey: "PROJECTKEY"          # replace with your Jira project key
+
+  regression-tests:
+    # Run on pushes to release/* OR on schedule
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/')) || (github.event_name == 'schedule')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install selenium pytest
+
+      - name: Run full regression tests
+        run: |
+          pytest --junitxml=test-results/results.xml
+
+      - name: Import results to Xray
+        uses: mikepenz/xray-action@v3
+        with:
+          username: ${{ secrets.XRAY_CLIENT_ID }}
+          password: ${{ secrets.XRAY_CLIENT_SECRET }}
+          testFormat: "junit"
+          testPaths: "test-results/results.xml"
+          testExecKey: "XRAY-TESTEXEC-KEY"  # replace with your Test Execution key
+          projectKey: "PROJECTKEY"          # replace with your Jira project key

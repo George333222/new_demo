@@ -19,6 +19,6 @@
 
 import pytest
 
-@pytest.mark.xray("COM-1")
-def test_valid_login():
+@pytest.mark.xray(key="CMD-2")
+def test_login_valid():
     assert True

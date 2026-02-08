@@ -25,4 +25,4 @@ python -m pytest -m smoke --html=report.html --self-contained-html [to generate 
 
 python -m pytest --junitxml=results.xml [to generate xml results with file]
 
-python -m pytest --junitxml=results.xml --html=report.html --self-contained-html -v [to generate both xml and html report with details]
+ [to generate both xml and html report with details]python -m pytest --junitxml=results.xml --html=report.html --self-contained-html -v

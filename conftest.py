@@ -32,3 +32,20 @@
 #             ("test_key", xray_marker.args[0])
 #         )
 
+
+import pytest
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_call(item):
+    outcome = yield
+
+    marker = item.get_closest_marker("xray")
+    if not marker:
+        return
+
+    key = marker.kwargs.get("key")
+    if not key:
+        return
+
+    # this makes pytest write <property name="test_key" ...> into junit xml
+    item.user_properties.append(("test_key", key))
