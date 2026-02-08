@@ -36,7 +36,7 @@ jobs:
           testFormat: "junit"
           testPaths: "test-results/results.xml"
           testExecKey: "COM-4"  # replace with your Test Execution key
-          projectKey: "COM"          # replace with your Jira project key
+          projectKey: "COM-8"          # replace with your Jira project key
 
   regression-tests:
     # Run on pushes to release/* OR on schedule
@@ -67,4 +67,4 @@ jobs:
           testFormat: "junit"
           testPaths: "test-results/results.xml"
           testExecKey: "COM-4"  # replace with your Test Execution key
-          projectKey: "COM"          # replace with your Jira project key
+          projectKey: "COM-8"          # replace with your Jira project key
