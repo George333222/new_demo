@@ -35,8 +35,8 @@ jobs:
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
           testFormat: "junit"
           testPaths: "test-results/results.xml"
-          testExecKey: "XRAY-TESTEXEC-KEY"  # replace with your Test Execution key
-          projectKey: "PROJECTKEY"          # replace with your Jira project key
+          testExecKey: "COM-4"  # replace with your Test Execution key
+          projectKey: "COM"          # replace with your Jira project key
 
   regression-tests:
     # Run on pushes to release/* OR on schedule
@@ -66,5 +66,5 @@ jobs:
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
           testFormat: "junit"
           testPaths: "test-results/results.xml"
-          testExecKey: "XRAY-TESTEXEC-KEY"  # replace with your Test Execution key
-          projectKey: "PROJECTKEY"          # replace with your Jira project key
+          testExecKey: "COM-4"  # replace with your Test Execution key
+          projectKey: "COM"          # replace with your Jira project key
