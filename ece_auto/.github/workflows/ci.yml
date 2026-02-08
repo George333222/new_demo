@@ -67,4 +67,4 @@ jobs:
           testFormat: "junit"
           testPaths: "test-results/results.xml"
           testExecKey: "COM-4"  # replace with your Test Execution key
-          projectKey: "COM"          # replace with your Jira project key
+          projectKey: "CO1"          # replace with your Jira project key
