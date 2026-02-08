@@ -1,70 +1,78 @@
-# File: .github/workflows/ci.yml
+name: Selenium Pytest + Xray Cloud
+
 on:
   push:
     branches:
       - main
       - 'release/*'
   schedule:
-    - cron: '0 0 * * *'   # Nightly at midnight UTC
+    - cron: '0 0 * * *'   # nightly
+
 jobs:
+
   smoke-tests:
-    # Only run on pushes to main branch
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: Install dependencies
         run: |
-          pip install selenium pytest
+          pip install -r requirements.txt || pip install selenium pytest
 
       - name: Run smoke tests
         run: |
+          mkdir -p test-results
           pytest -m smoke --junitxml=test-results/results.xml
 
-      - name: Import results to Xray
+      - name: Upload results to Xray Cloud
         uses: mikepenz/xray-action@v3
         with:
+          xrayCloud: true
           username: ${{ secrets.XRAY_CLIENT_ID }}
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
           testFormat: "junit"
           testPaths: "test-results/results.xml"
-          testExecKey: "COM-4"  # replace with your Test Execution key
-          projectKey: "COM"          # replace with your Jira project key
+          projectKey: "COM"
+          testExecKey: "COM-4"
+
 
   regression-tests:
-    # Run on pushes to release/* OR on schedule
     if: (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release/')) || (github.event_name == 'schedule')
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: Install dependencies
         run: |
-          pip install selenium pytest
+          pip install -r requirements.txt || pip install selenium pytest
 
       - name: Run full regression tests
         run: |
+          mkdir -p test-results
           pytest --junitxml=test-results/results.xml
 
-      - name: Import results to Xray
+      - name: Upload results to Xray Cloud
         uses: mikepenz/xray-action@v3
         with:
+          xrayCloud: true
           username: ${{ secrets.XRAY_CLIENT_ID }}
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
           testFormat: "junit"
           testPaths: "test-results/results.xml"
-          testExecKey: "COM-4"  # replace with your Test Execution key
-          projectKey: "COM"          # replace with your Jira project key
+          projectKey: "COM"
+          testExecKey: "COM-4"
